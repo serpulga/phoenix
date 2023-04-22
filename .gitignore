@@ -7,3 +7,5 @@ __pycache__/
 
 .dotnet/
 .vscode-server/
+
+.coverage

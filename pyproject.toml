@@ -10,6 +10,7 @@ python = "^3.11"
 fastapi = "^0.95.1"
 sqlmodel = "^0.0.8"
 psycopg2-binary = "^2.9.6"
+pytest-cov = "^4.0.0"
 
 
 [tool.poetry.group.dev.dependencies]

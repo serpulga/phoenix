@@ -1,5 +1,3 @@
-import sys
-
 from phoenix.services.primes import is_prime
 
 
