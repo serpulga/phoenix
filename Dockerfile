@@ -8,6 +8,8 @@ RUN apt-get -y install curl
 # we'll create an unpriviledged user that will run the application.
 ENV RUNNER=phoenix
 ENV APPDIR=/app
+ENV PYTHONPATH=${APPDIR}
+ENV PATH="${PATH}:${APPDIR}/.local/bin"
 
 # Provisioning new user with home directory and
 # granting ownership over their home directory.
