@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  phoenix-be:
+    build:
+      context: .
+    volumes:
+      - .:/app
+      - /app/.local/
+

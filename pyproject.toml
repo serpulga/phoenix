@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "phoenix"
+version = "0.1.0"
+description = "Google Cloud Run Workshop <Pycon Colombia 2023>"
+authors = ["Sergio Pulgarin <serpulga@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.95.1"
+sqlmodel = "^0.0.8"
+psycopg2-binary = "^2.9.6"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+pytest = "^7.3.1"
+pre-commit = "^3.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
