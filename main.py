@@ -1,3 +1,4 @@
+import concurrent.futures
 import logging
 
 from fastapi import FastAPI
@@ -16,7 +17,13 @@ logging.basicConfig(
 )
 
 
-app = FastAPI(title="Phoenix Prime Number Calculator")
+def lifespan(app: FastAPI):
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        app.state.executor_pool = executor
+        yield
+
+
+app = FastAPI(title="Phoenix Prime Number Calculator", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

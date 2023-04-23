@@ -1,4 +1,6 @@
+import asyncio
 from datetime import datetime
+import time
 import uuid
 
 from fastapi import Depends, HTTPException, status
@@ -8,6 +10,7 @@ from sqlmodel import select, Session, update
 from phoenix.models.prime import Prime
 from phoenix.models.task import Task, TaskStatus
 from phoenix.services.database import db_session, async_session
+from phoenix.services.parallel import executor_pool
 from phoenix.services.primes import is_prime
 
 
@@ -33,7 +36,17 @@ async def process_task(task: Task):
                 is_prime_number = True
             else:
                 logger.info("Calculating new for number=%s", task.number)
-                is_prime_number = is_prime(task.number)
+                el = asyncio.get_event_loop()
+                t0 = time.time()
+                is_prime_number = await el.run_in_executor(
+                    executor_pool(), is_prime, task.number
+                )
+                logger.info(
+                    "Calcuated number=%s is_prime=%s took=%.2f",
+                    task.number,
+                    is_prime_number,
+                    time.time() - t0,
+                )
                 prime = Prime(number=task.number)
                 session.add(prime)
 
