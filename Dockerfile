@@ -24,3 +24,7 @@ USER ${RUNNER}
 WORKDIR ${APPDIR}
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
+
+COPY pyproject.toml poetry.lock ${APPDIR}/
+
+CMD ["poetry", "run", "python", "main.py"]

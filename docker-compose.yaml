@@ -1,9 +1,25 @@
 version: "3.8"
 
 services:
+
+  db:
+    image: postgres:14.3
+    restart: on-failure
+    environment:
+      - POSTGRES_USER=postgres
+      - PGUSER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=phoenix-db
+    volumes:
+      - ./database/pg:/var/lib/postgresql/data:delegated
+    ports:
+      - 5432:5432
+
   phoenix-be:
     build:
       context: .
     volumes:
-      - .:/app
+      - .:/app:delegated
       - /app/.local/
+    ports:
+      - 8080:8080
