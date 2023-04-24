@@ -36,7 +36,7 @@ async def process_task(task: Task):
                 is_prime_number = True
             else:
                 logger.info("Calculating new for number=%s", task.number)
-                el = asyncio.get_event_loop()
+                el = asyncio.get_running_loop()
                 t0 = time.time()
                 is_prime_number = await el.run_in_executor(
                     executor_pool(), is_prime, task.number
@@ -47,8 +47,9 @@ async def process_task(task: Task):
                     is_prime_number,
                     time.time() - t0,
                 )
-                prime = Prime(number=task.number)
-                session.add(prime)
+                if is_prime_number:
+                    prime = Prime(number=task.number)
+                    session.add(prime)
 
             await session.execute(
                 update(Task)

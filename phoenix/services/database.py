@@ -20,7 +20,6 @@ async def create_all():
     from phoenix.models.prime import Prime
 
     [Task, Prime]
-    print("creating all")
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 
