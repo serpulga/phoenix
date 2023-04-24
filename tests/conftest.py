@@ -85,11 +85,6 @@ def testdir():
 
 
 @pytest.fixture(scope="session")
-def testdir():
-    return pathlib.Path(__file__).parent
-
-
-@pytest.fixture(scope="session")
 def testset_dir(testdir):
     return testdir / pathlib.Path("primes_lower_1000.txt")
 
