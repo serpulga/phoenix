@@ -26,7 +26,7 @@ def event_loop():
 
 @pytest.fixture(scope="session")
 def db_connection_url():
-    yield settings.DATABASE_URL + "-test"
+    yield settings.DATABASE_URL
 
 
 @pytest.fixture(scope="session")

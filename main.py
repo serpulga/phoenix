@@ -49,7 +49,7 @@ async def root():
     return ""
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     port = settings.PORT
     workers = settings.WORKERS
     reload = settings.RELOAD
