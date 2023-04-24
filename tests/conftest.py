@@ -1,14 +1,17 @@
 import asyncio
 import pathlib
 
+from fastapi.testclient import TestClient
 import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import delete, SQLModel
 
+from main import app
 from phoenix.models.task import Task, TaskStatus
 from phoenix.models.prime import Prime
+from phoenix.services.database import db_session
 import settings
 
 
@@ -59,6 +62,23 @@ async def test_session(test_async_sessionmaker):
         yield session
 
 
+@pytest.fixture(scope="function", autouse=True)
+def override_db_session_dependency(db_connection_url):
+    async def _db_session():
+        # Needs to create a new engine so that the
+        # even loop associated is from FastAPI runtime.
+        engine = create_async_engine(db_connection_url)
+        async_session = sessionmaker(
+            engine, expire_on_commit=False, class_=AsyncSession
+        )
+        async with async_session() as session:
+            yield session
+
+    app.dependency_overrides[db_session] = _db_session
+
+    yield
+
+
 @pytest.fixture(scope="session")
 def testdir():
     return pathlib.Path(__file__).parent
@@ -88,6 +108,13 @@ def big_non_prime_number():
 def primes_testset(testset_dir):
     with open(testset_dir, "r") as testset:
         return [int(d) for d in testset.read().split(",")]
+
+
+@pytest.fixture(scope="function")
+def test_client():
+    client = TestClient(app)
+    yield client
+    client.cookies.clear()
 
 
 @pytest_asyncio.fixture(scope="function")
