@@ -5,7 +5,7 @@ import pytest
 import pytest_asyncio
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-from sqlmodel import delete, select, SQLModel
+from sqlmodel import delete, SQLModel
 
 from phoenix.models.task import Task, TaskStatus
 from phoenix.models.prime import Prime

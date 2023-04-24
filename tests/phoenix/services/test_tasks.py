@@ -1,5 +1,5 @@
 from concurrent.futures import Future
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 import random
 import uuid
 
@@ -8,7 +8,7 @@ import pytest
 from sqlmodel import select, func
 
 from phoenix.models.prime import Prime
-from phoenix.models.task import Task, TaskResult, TaskStatus
+from phoenix.models.task import TaskStatus
 from phoenix.services.primes import is_prime
 from phoenix.services.tasks import task_for_number, task_result, process_task
 
